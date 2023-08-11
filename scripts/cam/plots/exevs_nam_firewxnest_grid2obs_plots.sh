@@ -34,12 +34,8 @@ while [ $DATE -ge $ENDDATE ]; do
 
 	sed "s/$model1/$MODELNAME/g" $STATDIR/evs.stats.${MODELNAME}.${RUN}.${VERIF_CASE}.v${DAY}.stat > $STATDIR/temp.stat
 	sed "s/FULL/FireWx/g" $STATDIR/temp.stat > $STATDIR/temp2.stat
-	sed "s/TDO/DPT/g" $STATDIR/temp2.stat > $STATDIR/temp3.stat
-	mv $STATDIR/temp3.stat $STATDIR/evs.stats.${MODELNAME}.${RUN}.${VERIF_CASE}.v${DAY}.stat
+	mv $STATDIR/temp2.stat $STATDIR/evs.stats.${MODELNAME}.${RUN}.${VERIF_CASE}.v${DAY}.stat
 	rm -f $STATDIR/temp*stat
-
-	cp /lfs/h2/emc/vpppg/noscrub/perry.shafran/evs/v1.0/stats/cam/namnest.$DAY/evs.stats.namnest.${RUN}.${VERIF_CASE}.v${DAY}.stat $STATDIR
-	cp /lfs/h2/emc/vpppg/noscrub/perry.shafran/evs/v1.0/stats/cam/hrrr.$DAY/evs.stats.hrrr.${RUN}.${VERIF_CASE}.v${DAY}.stat $STATDIR
 
 	DATE=`$NDATE -24 $DATE`
 
@@ -71,7 +67,7 @@ do
 		export datetyp=INIT
 		export linetype=CTC
 		export stat=fbias
-                export thresh=">=277.594, >=283.15, >=288.706, >=294.261"
+                export thresh=">=277.59, >=283.15, >=288.7, >=294.26"
 		sh $USHevs/${COMPONENT}/py_plotting.config_thresh
 
 		mv ${PLOTDIR}/sfc_upper/*/evs*png ${PLOTDIR}/evs.${MODELNAME}.fbias.${smvar}_${smlev}.last31days.threshmean.firewx.png
@@ -147,13 +143,13 @@ do
 	smvar=`echo $varb | tr A-Z a-z`
 	export plottyp=lead
 	export datetyp=VALID
-	sh $USHevs/${COMPONENT}/py_plotting.config_pbl
+	sh $USHevs/${COMPONENT}/py_plotting.config
 
 	mv ${PLOTDIR}/sfc_upper/*/evs*png ${PLOTDIR}/evs.${MODELNAME}.bcrmse_me.${smvar}_${smlev}.last31days.fhrmean.firewx.png
 
 	export plottyp=valid_hour
 	export datetyp=INIT
-	sh $USHevs/${COMPONENT}/py_plotting.config_pbl
+	sh $USHevs/${COMPONENT}/py_plotting.config
 
 	mv ${PLOTDIR}/sfc_upper/*/evs*png ${PLOTDIR}/evs.${MODELNAME}.bcrmse_me.${smvar}_${smlev}.last31days.vhrmean.firewx.png
 
